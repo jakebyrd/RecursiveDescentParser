@@ -24,7 +24,7 @@ public class Parser {
             currentToken = scanner.nextToken();
         else
             writeError("Expected:  " + Token.kindString(expectedKind) +
-                       "Found :" + Token.kindString(currentToken.kind));
+                    "Found :" + Token.kindString(currentToken.kind));
     }
 
     /**
@@ -48,11 +48,11 @@ public class Parser {
 
     //---------------- Parsing Methods ---------------
     private void parseScript() {
-         while (currentToken.kind == Token.FName
+        while (currentToken.kind == Token.FName
                 || currentToken.kind == Token.VAR
                 || currentToken.kind == Token.IF
-                 || currentToken.kind == Token.FOR)
-             parseCommand();
+                || currentToken.kind == Token.FOR)
+            parseCommand();
     }
 
     private void parseCommand() {
@@ -61,8 +61,8 @@ public class Parser {
                 acceptIt();
                 //parseFileName();
                 while (currentToken.kind == Token.FName
-                      || currentToken.kind == Token.LIT
-                      || currentToken.kind == Token.VAR)
+                        || currentToken.kind == Token.LIT
+                        || currentToken.kind == Token.VAR)
                     parseArgument();
                 accept(Token.EOL);
             }
@@ -75,17 +75,17 @@ public class Parser {
             case Token.IF: {
                 acceptIt();
                 while (currentToken.kind == Token.FName
-                  || currentToken.kind == Token.LIT
-                  || currentToken.kind == Token.VAR)
+                        || currentToken.kind == Token.LIT
+                        || currentToken.kind == Token.VAR)
                     parseArgument();
-                    accept(Token.THEN);
-                    accept(Token.EOL);
+                accept(Token.THEN);
+                accept(Token.EOL);
                 while (currentToken.kind == Token.FName
-                    || currentToken.kind == Token.LIT
-                    || currentToken.kind == Token.VAR)
+                        || currentToken.kind == Token.LIT
+                        || currentToken.kind == Token.VAR)
                     parseArgument();
-                    accept(Token.ELSE);
-                    accept(Token.EOL);
+                accept(Token.ELSE);
+                accept(Token.EOL);
                 while (currentToken.kind == Token.FName
                         || currentToken.kind == Token.LIT
                         || currentToken.kind == Token.VAR)

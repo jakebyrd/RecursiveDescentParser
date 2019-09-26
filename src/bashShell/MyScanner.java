@@ -6,8 +6,8 @@ import java.util.Scanner;
 
 public class MyScanner {
 
+    private MyScanner scanner = null;
     private int nextToken;
-
     private ArrayList<String> tokens = null;
 
     public MyScanner(String line) {
@@ -31,12 +31,12 @@ public class MyScanner {
         }
         else
             return null;
-
     }
+
     public boolean hasTokens(){
         return nextToken == tokens.size();
     }
-  //  public static void main(String [] args) {
-  //      MyScanner ts = new MyScanner();
-  //  }
+    //  public static void main(String [] args) {
+    //      MyScanner ts = new MyScanner();
+    //  }
 }
