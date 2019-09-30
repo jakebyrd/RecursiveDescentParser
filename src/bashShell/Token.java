@@ -3,8 +3,6 @@ package bashShell;
 public class Token {
     public byte kind;
     public String spelling;
-    private Token currentToken = null;
-    private MyScanner scanner = null;
 
     public final static byte FName = 0;
     public final static byte LIT = 1;
@@ -28,9 +26,6 @@ public class Token {
             "if", "then", "else", "fi", "for", "in", "do", "od", "<eol>",
             "<eot>", "<command>", "<argument>"
     };
-    private void acceptIt() {
-        currentToken = scanner.nextToken();
-    }
 
     public static String kindString(byte kind) {
         return spellings[kind];
@@ -39,20 +34,4 @@ public class Token {
     public Token(byte kind, String spelling){
         this.kind = kind;
         this.spelling = spelling;
-        if(kind == Token.VAR){
-            switch(currentToken){
-                case 'a': case 'b': case 'c': case 'd': case 'e': case 'f': case 'g': case 'h':
-                case 'i': case 'j': case 'k': case 'l': case 'm': case 'n': case 'o': case 'p':
-                case 'q': case 'r': case 's': case 't': case 'u': case 'v': case 'w': case 'x':
-                case 'y': case 'z':
-                    acceptIt();
-                    return Token.FName;
-                case '0': case '1': case '2': case '3': case '4': case '5':
-                case '6': case '7': case '8': case '9': case '_': case '.':
-
-                default:
-                    System.out.print("Script is not a command");
-            }
-        }
-    }
 }
