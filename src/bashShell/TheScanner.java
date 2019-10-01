@@ -18,16 +18,6 @@ public class TheScanner {
         while(sent.hasNext()) {
             String temp = sent.next();
             switch (temp){
-                default:
-                    if(temp.matches(varDeclare)){
-                        tokens.add(Token.VAR);
-                    }
-                    else if(temp.matches(litDeclare)){
-                        tokens.add(Token.LIT);
-                    }
-                    else{
-                        throw new RuntimeException("Invalid Token: " + temp);
-                    }
                 case "cat": case "ls": case "pwd": case "touch": case "cp": case "mv":
                 case "rm": case "chmod": case "man": case "ps": case "bg":
                 case "mkdir": case "test": case "cd":
@@ -52,6 +42,16 @@ public class TheScanner {
                     tokens.add(Token.OD);
                 case "eol":
                     tokens.add(Token.EOL);
+                default:
+                    if(temp.matches(varDeclare)){
+                        tokens.add(Token.VAR);
+                    }
+                    else if(temp.matches(litDeclare)){
+                        tokens.add(Token.LIT);
+                    }
+                    else{
+                        throw new RuntimeException("Invalid Token: " + temp);
+                    }
             }
         }
         System.out.println(tokens);
