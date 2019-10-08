@@ -30,8 +30,3 @@ public class Token {
     public static String kindString(byte kind) {
         return spellings[kind];
     }
-
-    public Token(byte kind, String spelling){
-        this.kind = kind;
-        this.spelling = spelling;
-}
