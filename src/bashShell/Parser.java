@@ -1,6 +1,5 @@
 package bashShell;
 
-import java.util.Scanner;
 
 //@uthor Jake Byrd
 
@@ -68,15 +67,21 @@ public class Parser {
                         || currentToken == Token.VAR)
                     parseArgument();
                 accept(Token.EOL);
+                break;
             }
             case Token.VAR: {
                 acceptIt();
                 accept(Token.ASSIGN);
-                parseArgument();
+                while (currentToken == Token.FName
+                        || currentToken == Token.VAR
+                        || currentToken == Token.LIT)
+                    parseArgument();
                 accept(Token.EOL);
+                break;
             }
             case Token.IF: {
                 acceptIt();
+                parseFileName();
                 while (currentToken == Token.FName
                         || currentToken == Token.LIT
                         || currentToken == Token.VAR)
@@ -85,16 +90,19 @@ public class Parser {
                 accept(Token.EOL);
                 while (currentToken == Token.FName
                         || currentToken == Token.LIT
-                        || currentToken == Token.VAR)
-                    parseArgument();
+                        || currentToken == Token.VAR
+                        || currentToken == Token.FOR)
+                    parseCommand();
                 accept(Token.ELSE);
                 accept(Token.EOL);
                 while (currentToken == Token.FName
                         || currentToken == Token.LIT
-                        || currentToken == Token.VAR)
-                    parseArgument();
+                        || currentToken == Token.VAR
+                        || currentToken == Token.FOR)
+                    parseCommand();
                 accept(Token.FI);
                 accept(Token.EOL);
+                break;
             }
             case Token.FOR: {
                 acceptIt();
@@ -109,10 +117,12 @@ public class Parser {
                 accept(Token.EOL);
                 while (currentToken == Token.FName
                         || currentToken == Token.LIT
-                        || currentToken == Token.VAR)
-                    parseArgument();
+                        || currentToken == Token.VAR
+                        || currentToken == Token.FOR)
+                    parseCommand();
                 accept(Token.OD);
                 accept(Token.EOL);
+                break;
             }
         }
     }
@@ -121,12 +131,15 @@ public class Parser {
         switch (currentToken) {
             case Token.FName: {
                 parseFileName();
+                break;
             }
             case Token.LIT: {
                 parseLiteral();
+                break;
             }
             case Token.VAR: {
                 parseVariable();
+                break;
             }
         }
     }
