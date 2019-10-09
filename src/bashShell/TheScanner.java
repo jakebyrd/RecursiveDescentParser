@@ -22,26 +22,37 @@ public class TheScanner {
                 case "rm": case "chmod": case "man": case "ps": case "bg":
                 case "mkdir": case "test": case "cd":
                     tokens.add(Token.FName);
+                    break;
                 case "=":
                     tokens.add(Token.ASSIGN);
+                    break;
                 case "if":
                     tokens.add(Token.IF);
+                    break;
                 case "then":
                     tokens.add(Token.THEN);
+                    break;
                 case "else":
                     tokens.add(Token.ELSE);
+                    break;
                 case "fi":
                     tokens.add(Token.FI);
+                    break;
                 case "for":
                     tokens.add(Token.FOR);
+                    break;
                 case "in":
                     tokens.add(Token.IN);
+                    break;
                 case "do":
                     tokens.add(Token.DO);
+                    break;
                 case "od":
                     tokens.add(Token.OD);
+                    break;
                 case "eol":
                     tokens.add(Token.EOL);
+                    break;
                 default:
                     if(temp.matches(varDeclare)){
                         tokens.add(Token.VAR);
@@ -64,7 +75,7 @@ public class TheScanner {
             return tokens.get(nextToken-1);
         }
         else
-            return null;
+            return Token.EOL;
     }
 
     public boolean hasTokens(){
