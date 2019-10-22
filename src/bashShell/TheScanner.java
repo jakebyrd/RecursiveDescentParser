@@ -12,8 +12,8 @@ public class TheScanner {
     private String currentToken = null;
     private TheScanner scanner = null;
 
-    public TheScanner(String script){
-        Scanner sent = new Scanner(script);
+    public TheScanner(Path source){
+        Scanner sent = new Scanner(source);
         tokens = new ArrayList<>();
         while(sent.hasNext()) {
             String temp = sent.next();
@@ -69,7 +69,7 @@ public class TheScanner {
         nextToken = 0;
     }
 
-    public Byte nextToken() {
+    public Token nextToken() {
         if (nextToken < tokens.size()) {
             nextToken++;
             return tokens.get(nextToken-1);
@@ -84,7 +84,7 @@ public class TheScanner {
 
     public static void main(String [] args) {
         Scanner in = new Scanner(System.in);
-        System.out.println("Enter script while remembering to keep spaces and having eol at the end");
+        System.out.println("Enter Bash Shell file, making sure the file ends with .sh");
         String script = in.nextLine();
         Parser s = new Parser(script);
     }
