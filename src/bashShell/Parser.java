@@ -3,6 +3,8 @@ package bashShell;
 
 //@uthor Jake Byrd
 
+import bashShell.ast.*;
+
 public class Parser {
     private Byte currentToken = null;
     private TheScanner scanner = null;
@@ -49,34 +51,42 @@ public class Parser {
     }
 
     //---------------- Parsing Methods ---------------
-    private void parseScript() {
+    private Script parseScript() {
         while (currentToken == Token.FName
                 || currentToken == Token.VAR
                 || currentToken == Token.IF
                 || currentToken == Token.FOR)
-            parseCommand();
+            return new Script(parseCommand());
     }
 
-    private void parseCommand() {
+    private Command parseSingleCommand() {
+        Command cAST;
         switch (currentToken) {
             case Token.FName: {
+                Argument FNameArg = parseFileName();
                 acceptIt();
                 //parseFileName();
+                Argument args;
                 while (currentToken == Token.FName
                         || currentToken == Token.LIT
                         || currentToken == Token.VAR)
-                    parseArgument();
+                    args = parseArgument();
                 accept(Token.EOL);
+                cAST = new ExecCmd(FNameArg, args);
                 break;
             }
             case Token.VAR: {
+                Command command;
+                Argument lvalue = parseVariable();
                 acceptIt();
                 accept(Token.ASSIGN);
+                Argument rvalue;
                 while (currentToken == Token.FName
                         || currentToken == Token.VAR
                         || currentToken == Token.LIT)
-                    parseArgument();
+                    rvalue = parseArgument();
                 accept(Token.EOL);
+                cAST = new AssignCmd(lvalue, rvalue);
                 break;
             }
             case Token.IF: {
@@ -106,12 +116,15 @@ public class Parser {
             }
             case Token.FOR: {
                 acceptIt();
+                Argument varArg = parseVariable();
+                Argument arg;
+                Command command;
                 accept(Token.VAR);
                 accept(Token.IN);
                 while (currentToken == Token.FName
                         || currentToken == Token.LIT
                         || currentToken == Token.VAR)
-                    parseArgument();
+                    arg = parseArgument();
                 accept(Token.EOL);
                 accept(Token.DO);
                 accept(Token.EOL);
@@ -119,40 +132,70 @@ public class Parser {
                         || currentToken == Token.LIT
                         || currentToken == Token.VAR
                         || currentToken == Token.FOR)
-                    parseCommand();
+                    command = parseCommand();
                 accept(Token.OD);
                 accept(Token.EOL);
+                cAST = new ForCommand(varArg, arg, command);
                 break;
             }
         }
     }
 
-    private void parseArgument() {
+    private Command parseCommand(){
+        Command c1 = parseSingleCommand();
+        while(currentToken == Token.ASSIGN){
+            acceptIt();
+            Command c2 = parseSingleCommand();;
+            c1 = new SeqCmd(c1,c2);
+        }
+        return c1;
+    }
+
+    private Argument parseArgument() {
+        Argument arg;
         switch (currentToken) {
             case Token.FName: {
+                arg = new FNameArg();
                 parseFileName();
+                return arg;
                 break;
             }
             case Token.LIT: {
+                arg = new LiteralArg();
                 parseLiteral();
+                return arg;
                 break;
             }
             case Token.VAR: {
+                arg = new VarArg();
                 parseVariable();
+                return arg;
                 break;
             }
         }
     }
 
-    private void parseFileName() {
+    private Argument parseFileName() {
+        term = new Terminal()
         acceptIt();
+        return new FNameArg(term);
     }
 
-    private void parseLiteral() {
+    private Argument parseLiteral() {
+        term = new Terminal()
         acceptIt();
+        return new LiteralArg(term);
     }
 
-    private void parseVariable() {
+    private Argument parseVariable() {
+        term = new Terminal();
         acceptIt();
+        return new VarArg(term);
+    }
+
+
+
+    public static void main(String [] args){
+
     }
 }
