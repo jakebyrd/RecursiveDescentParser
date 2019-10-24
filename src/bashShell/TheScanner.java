@@ -6,59 +6,58 @@ import java.util.Scanner;
 public class TheScanner {
 
     private int nextToken;
-    private ArrayList<Byte> tokens = null;
+    private ArrayList<Token> tokens = null;
     public final String varDeclare = "[A-Za-z][A-Za-z0-9_.]*";
     public final String litDeclare = "-?[A-Za-z0-9]*|[0-9]";
-    private String currentToken = null;
     private TheScanner scanner = null;
 
-    public TheScanner(Path source){
-        Scanner sent = new Scanner(source);
-        tokens = new ArrayList<>();
-        while(sent.hasNext()) {
+    public TheScanner(String script){
+        Scanner sent = null;
+        tokens = new ArrayList<Token>();
+        while (sent.hasNext()){
             String temp = sent.next();
             switch (temp){
                 case "cat": case "ls": case "pwd": case "touch": case "cp": case "mv":
                 case "rm": case "chmod": case "man": case "ps": case "bg":
                 case "mkdir": case "test": case "cd":
-                    tokens.add(Token.FName);
+                    tokens.add (new Token(Token.FName, temp));
                     break;
                 case "=":
-                    tokens.add(Token.ASSIGN);
+                    tokens.add (new Token(Token.ASSIGN, temp));
                     break;
                 case "if":
-                    tokens.add(Token.IF);
+                    tokens.add (new Token(Token.IF, temp));
                     break;
                 case "then":
-                    tokens.add(Token.THEN);
+                    tokens.add (new Token(Token.THEN, temp));
                     break;
                 case "else":
-                    tokens.add(Token.ELSE);
+                    tokens.add (new Token(Token.ELSE, temp));
                     break;
                 case "fi":
-                    tokens.add(Token.FI);
+                    tokens.add (new Token(Token.FI, temp));
                     break;
                 case "for":
-                    tokens.add(Token.FOR);
+                    tokens.add (new Token(Token.FOR, temp));
                     break;
                 case "in":
-                    tokens.add(Token.IN);
+                    tokens.add (new Token(Token.IN, temp));
                     break;
                 case "do":
-                    tokens.add(Token.DO);
+                    tokens.add (new Token(Token.DO, temp));
                     break;
                 case "od":
-                    tokens.add(Token.OD);
+                    tokens.add (new Token(Token.OD, temp));
                     break;
                 case "eol":
-                    tokens.add(Token.EOL);
+                    tokens.add (new Token(Token.EOL, temp));
                     break;
                 default:
                     if(temp.matches(varDeclare)){
-                        tokens.add(Token.VAR);
+                        tokens.add (new Token(Token.VAR, temp));
                     }
                     else if(temp.matches(litDeclare)){
-                        tokens.add(Token.LIT);
+                        tokens.add (new Token(Token.LIT, temp));
                     }
                     else{
                         throw new RuntimeException("Invalid Token: " + temp);
@@ -75,7 +74,7 @@ public class TheScanner {
             return tokens.get(nextToken-1);
         }
         else
-            return Token.EOL;
+            return new Token(Token.EOL,"eot");
     }
 
     public boolean hasTokens(){
@@ -85,8 +84,8 @@ public class TheScanner {
     public static void main(String [] args) {
         Scanner in = new Scanner(System.in);
         System.out.println("Enter Bash Shell file, making sure the file ends with .sh");
-        String script = in.nextLine();
-        Parser s = new Parser(script);
+        String source = in.nextLine();
+        Parser s = new Parser(source);
     }
 
     //Tests from class.
