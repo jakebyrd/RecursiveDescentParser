@@ -5,5 +5,5 @@ package bashShell.ast;
  * Argument.  Instead of creating additional subtypes, this
  * restriction will be enforced by SingleArgs constructor.
  */
-public class SingleArg extends Argument {
+public abstract class SingleArg extends Argument {
 }
