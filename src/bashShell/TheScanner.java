@@ -12,7 +12,7 @@ public class TheScanner {
     private TheScanner scanner = null;
 
     public TheScanner(String script){
-        Scanner sent = null;
+        Scanner sent = new Scanner(script);
         tokens = new ArrayList<Token>();
         while (sent.hasNext()){
             String temp = sent.next();
@@ -63,6 +63,9 @@ public class TheScanner {
                         throw new RuntimeException("Invalid Token: " + temp);
                     }
             }
+        }
+        for (Token token: tokens){
+            System.out.print(token.spelling + " ");
         }
         System.out.println(tokens);
         nextToken = 0;
