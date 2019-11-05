@@ -1,6 +1,6 @@
 package bashShell.ast;
 
-public class VarArg extends Argument {
+public class VarArg extends SingleArg {
     private Terminal variable;
 
     public VarArg(Terminal variable){

@@ -1,6 +1,6 @@
 package bashShell.ast;
 
-public class LiteralArg extends Argument {
+public class LiteralArg extends SingleArg {
     private Terminal literal;
 
     public LiteralArg(Terminal literal){

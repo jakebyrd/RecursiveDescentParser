@@ -1,6 +1,6 @@
 package bashShell.ast;
 
-public class FNameArg extends Argument  {
+public class FNameArg extends SingleArg  {
     private Terminal term;
 
     public FNameArg(Terminal term){
