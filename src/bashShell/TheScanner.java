@@ -84,12 +84,12 @@ public class TheScanner {
         return nextToken == tokens.size();
     }
 
-    public static void main(String [] args) {
-        Scanner in = new Scanner(System.in);
-        System.out.println("Enter Bash Shell file, making sure the file ends with .sh");
-        String source = in.nextLine();
-        Parser s = new Parser(source);
-    }
+    // public static void main(String [] args) {
+    //     Scanner in = new Scanner(System.in);
+    //     System.out.println("Enter Bash Shell file, making sure the file ends with .sh");
+    //     String source = in.nextLine();
+    //     Parser s = new Parser(source);
+    // }
 
     //Tests from class.
     //Parser s = new Parser("touch myNewFile mkdir newStuff mv myNewFile newStuff cd newStuff chmod 557");
