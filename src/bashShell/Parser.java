@@ -7,7 +7,7 @@ import bashShell.ast.*;
 
 public class Parser {
     private Token currentToken = null;
-    private TheScanner scanner = null;
+    private TheScanner TheScanner = null;
     private boolean errorHappened;
     private static Script sAST = null;
 
@@ -43,8 +43,8 @@ public class Parser {
     }
 
     public Parser(String script){
-        scanner = new TheScanner(script);
-        currentToken = scanner.nextToken();
+        TheScanner = new TheScanner(script);
+        currentToken = TheScanner.nextToken();
         sAST = parseScript();
         if (!errorHappened){
             System.out.println("Legal Script");
@@ -58,15 +58,16 @@ public class Parser {
                 || currentToken.kind == Token.IF
                 || currentToken.kind == Token.FOR)
             parseCommand();
+        return null;
     }
 
-    private Command parseSingleCommand() {
-        Command cAST;
+    private Command parseCommand() {
+        Command cAST = null;
         switch (currentToken.kind) {
             case Token.FName: {
-                FNameArg filenameArg = parseFileName();
-                Argument arg;
-                //parseFileName();
+                FNameArg filenameArg;
+                filenameArg = parseFileName();
+                Argument arg = null;
                 while (currentToken.kind == Token.FName
                         || currentToken.kind == Token.LIT
                         || currentToken.kind == Token.VAR)
@@ -76,53 +77,65 @@ public class Parser {
                 break;
             }
             case Token.VAR: {
-                VarArg lvalue = parseVariable();
+                VarArg lvalue;
+                lvalue = parseVariable();
                 accept(Token.ASSIGN);
-                SingleArg rvalue = parseSingleArgument();
+                SingleArg rvalue;
+                rvalue = parseSingleArgument();
                 accept(Token.EOL);
                 cAST = new AssignCmd(lvalue, rvalue);
-                break
+                break;
             }
             case Token.IF: {
                 acceptIt();
-                FNameArg filenameArg = parseFileName();
-                Argument args;
-                while (currentToken.kind == Token.FName
+                FNameArg filenameArg;
+                filenameArg = parseFileName();
+                Argument args = null;
+                if (currentToken.kind == Token.FName
                         || currentToken.kind == Token.LIT
                         || currentToken.kind == Token.VAR)
                     args = parseArgument();
+                else{
+                    args = new NullArg();
+                }
                 accept(Token.THEN);
                 accept(Token.EOL);
-                Command thenBlock;
-                while (currentToken.kind == Token.FName
+                Command ifBlock = null;
+                if (currentToken.kind == Token.FName
                         || currentToken.kind == Token.LIT
                         || currentToken.kind == Token.VAR
                         || currentToken.kind == Token.FOR)
-                    thenBlock = parseCommand();
+                    ifBlock = parseCommand();
+                else{
+                    ifBlock = new NullCmd();
+                }
                 accept(Token.ELSE);
                 accept(Token.EOL);
-                Command elseBlock;
-                while (currentToken.kind == Token.FName
+                Command elseBlock = null;
+                if (currentToken.kind == Token.FName
                         || currentToken.kind == Token.LIT
                         || currentToken.kind == Token.VAR
                         || currentToken.kind == Token.FOR)
                     elseBlock = parseCommand();
+                else{
+                    elseBlock = new NullCmd();
+                }
                 accept(Token.FI);
                 accept(Token.EOL);
+                cAST = new IfCmd(filenameArg, args, ifBlock, elseBlock);
                 break;
-                cAST = new IfCmd(FNameArg, args, thenBlock, elseBlock);
             }
             case Token.FOR: {
                 acceptIt();
-                Argument varArg = parseVariable();
-                Argument arg;
-                Command command;
-                accept(Token.VAR);
+                VarArg varArg;
+                varArg = parseVariable();
+                Argument args = null;
+                Command command = null;
                 accept(Token.IN);
                 while (currentToken.kind == Token.FName
                         || currentToken.kind == Token.LIT
                         || currentToken.kind == Token.VAR)
-                    arg = parseArgument();
+                    args = parseArgument();
                 accept(Token.EOL);
                 accept(Token.DO);
                 accept(Token.EOL);
@@ -133,72 +146,80 @@ public class Parser {
                     command = parseCommand();
                 accept(Token.OD);
                 accept(Token.EOL);
+                cAST = new ForCommand(varArg, args, command);
                 break;
-                cAST = new ForCommand(varArg, arg, command);
             }
+            default: {
+                System.err.println("Error in parseCommand");
+            }
+        }
+        if(currentToken.kind != Token.EOT &&
+                currentToken.kind != Token.ELSE &&
+                currentToken.kind != Token.FI &&
+                currentToken.kind != Token.OD){
+            Command command;
+            command = parseCommand();
+            return new SeqCmd(cAST, command);
         }
         return cAST;
     }
 
-    private Command parseCommand(){
-        Command c1 = parseSingleCommand();
-        while(currentToken.kind == Token.ASSIGN){
-            acceptIt();
-            Command c2 = parseSingleCommand();;
-            c1 = new SeqCmd(c1,c2);
-        }
-        return c1;
-    }
-
     private Argument parseArgument() {
-        Argument arg;
+        Argument arg = null;
         switch (currentToken.kind) {
             case Token.FName: {
                 arg = parseFileName();
-                return arg;
                 break;
             }
             case Token.LIT: {
                 arg = parseLiteral();
-                return arg;
                 break;
             }
             case Token.VAR: {
                 arg = parseVariable();
-                return arg;
                 break;
             }
         }
+        if(currentToken.kind != Token.EOL && currentToken.kind != Token.THEN){
+            Argument arg2;
+            arg2 = parseArgument();
+            return new SeqArg(arg, arg2);
+        }
+        return arg;
     }
 
-    private Argument parseFileName() {
+    private FNameArg parseFileName() {
         Terminal t = new Terminal(currentToken.spelling);
         acceptIt();
         return new FNameArg(t);
     }
 
-    private Argument parseLiteral() {
+    private LiteralArg parseLiteral() {
         Terminal t = new Terminal(currentToken.spelling);
         acceptIt();
         return new LiteralArg(t);
     }
 
-    private Argument parseVariable() {
+    private VarArg parseVariable() {
         Terminal t = new Terminal(currentToken.spelling);
         acceptIt();
         return new VarArg(t);
     }
 
     private SingleArg parseSingleArgument() {
+        SingleArg arg1;
         switch(currentToken.kind) {
             case Token.FName: {
-                return parseFileName();
+                arg1 = parseFileName();
+                return arg1;
             }
             case Token.LIT: {
-                return parseLiteral();
+                arg1 = parseLiteral();
+                return arg1;
             }
             case Token.VAR: {
-                return parseVariable();
+                arg1 = parseVariable();
+                return arg1;
             }
         }
         return null;
