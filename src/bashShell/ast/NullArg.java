@@ -6,8 +6,4 @@ public class NullArg extends Argument {
     public NullArg(){
         this.arg = null;
     }
-
-    public String visit(int i){
-        return(Visitor.node(i) + "NullArg\n");
-    }
 }

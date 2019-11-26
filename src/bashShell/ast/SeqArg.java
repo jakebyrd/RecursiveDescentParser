@@ -10,6 +10,9 @@ public class SeqArg extends Argument {
     }
 
     public String visit(int i){
-        return(Visitor.node(i) + "SeqArg\n" + arg1.visit(i+1) + arg2.visit(i+1));
+        i++;
+        treeAst = treeAst + arg1.visit(i);
+        treeAst = treeAst + arg2.visit(i);
+        return(Indent(i) + "SeqArg\n" + treeAst);
     }
 }

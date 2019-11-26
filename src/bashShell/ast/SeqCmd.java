@@ -10,6 +10,9 @@ public class SeqCmd extends Command {
     }
 
     public String visit(int i){
-        return(Visitor.node(i) + "SeqCommand\n" + this.c1.visit(i+1) + this.c2.visit(i+1));
+        i++;
+        treeAst = treeAst + c1.visit(i);
+        treeAst = treeAst + c2.visit(i);
+        return(Indent(i) + "SeqCmd\n" + treeAst);
     }
 }

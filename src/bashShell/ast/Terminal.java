@@ -8,6 +8,7 @@ public class Terminal extends AST {
     }
 
     public String visit(int i){
-        return(" (" + this.spelling + ")\n");
+        treeAst = treeAst + spelling;
+        return(spelling + "\n");
     }
 }

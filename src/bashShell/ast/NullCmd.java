@@ -7,7 +7,8 @@ public class NullCmd extends Command {
         this.cmd = null;
     }
 
-    public String visit(int i){
-        return(Visitor.node(i) + "NullCommand\n");
+    public String visit(int i) {
+        treeAst = treeAst + (Indent(i) + "nullCmd");
+        return(Indent(i) + "nullCmd");
     }
 }

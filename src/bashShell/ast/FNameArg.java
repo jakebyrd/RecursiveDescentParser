@@ -8,7 +8,9 @@ public class FNameArg extends SingleArg  {
     }
 
     public String visit(int i){
-        return(Visitor.node(i) + "FNameArg\n" + this.term.visit(i+1));
+        i++;
+        treeAst += term.visit(i);
+        return(Indent(i) + "FNameArg " + treeAst);
     }
 
 }

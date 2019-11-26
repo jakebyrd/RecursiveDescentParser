@@ -12,8 +12,12 @@ public class IfCmd extends Command{
         this.ifBlock = ifBlock;
         this.elseBlock = elseBlock;
     }
-
     public String visit(int i){
-        return(Visitor.node(i) + "IfCommand\n" + this.command.visit(i+1) + this.args.visit(i+1) + this.ifBlock.visit(i+1) + this.elseBlock.visit(i+1));
+        i++;
+        treeAst = treeAst + command.visit(i);
+        treeAst = treeAst + args.visit(i);
+        treeAst = treeAst + ifBlock.visit(i);
+        treeAst = treeAst + elseBlock.visit(i);
+        return(Indent(i) + "IfCmd\n" + treeAst);
     }
 }

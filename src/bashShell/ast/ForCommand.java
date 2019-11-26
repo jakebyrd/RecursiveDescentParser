@@ -11,7 +11,11 @@ public class ForCommand extends Command {
         this.doBody = doBody;
     }
 
-    public String visit(int i) {
-        return(Visitor.node(i) + "ForCommand\n" + this.var.visit(i+1) + this.args.visit(i+1) + this.doBody.visit(i+1));
+    public String visit(int i){
+        i++;
+        treeAst = treeAst + var.visit(i);
+        treeAst = treeAst + args.visit(i);
+        treeAst = treeAst + doBody.visit(i);
+        return(Indent(i) + "ForCmd\n" + treeAst);
     }
 }

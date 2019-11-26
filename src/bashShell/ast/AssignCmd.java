@@ -8,7 +8,11 @@ public class AssignCmd extends Command {
         this.lValue = lValue;
         this.rValue = rValue;
     }
+    //visit method
     public String visit(int i){
-        return(Visitor.node(i) + "AssignCommand\n" + this.lValue.visit(i+1) + this.rValue.visit(i+1));
+        i++;
+        treeAst = treeAst + lValue.visit(i);
+        treeAst = treeAst + rValue.visit(i);
+        return(Indent(i) + "AssignCmd\n" + treeAst);
     }
 }

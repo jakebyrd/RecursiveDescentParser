@@ -8,6 +8,8 @@ public class VarArg extends SingleArg {
     }
 
     public String visit(int i){
-        return(Visitor.node(i) + "VarArg" + this.variable.visit(i+1));
+        i++;
+        treeAst = treeAst + variable.visit(i);
+        return(Indent(i) + "VarArg " + treeAst);
     }
 }

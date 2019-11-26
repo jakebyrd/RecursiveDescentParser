@@ -8,6 +8,8 @@ public class LiteralArg extends SingleArg {
     }
 
     public String visit(int i){
-        return(Visitor.node(i) + "LiteralArg" + this.literal.visit(i+1));
+        i++;
+        treeAst = treeAst + literal.visit(i);
+        return(Indent(i) + "LiteralArg " + treeAst);
     }
 }

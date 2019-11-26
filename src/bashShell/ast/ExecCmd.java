@@ -8,9 +8,12 @@ public class ExecCmd extends Command {
         this.command = command;
         this.args = args;
     }
-
+    //visit method
     public String visit(int i){
-        return(Visitor.node(i) + "ExecCommand\n" + this.command.visit(i+1) + this.args.visit(i+1));
+        i++;
+        treeAst = treeAst + command.visit(i);
+        treeAst = treeAst + args.visit(i);
+        return(Indent(i) + "ExecCmd\n" + treeAst);
     }
 
 }

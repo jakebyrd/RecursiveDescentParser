@@ -8,6 +8,9 @@ public class Script extends AST {
     }
 
     public String visit(int i){
-        return(Visitor.node(i) + "Script\n" + this.c.visit(i+1));
+        treeAst += Indent(i) + "Script\n";
+        i++;
+        treeAst = treeAst + c.visit(i);
+        return(treeAst);
     }
 }
