@@ -10,12 +10,13 @@ public class TheScanner {
     public final String varDeclare = "[A-Za-z][A-Za-z0-9_.]*";
     public final String litDeclare = "-?[A-Za-z0-9]*|[0-9]";
     private TheScanner scanner = null;
-
+    //Scanner Constructor
     public TheScanner(String script){
         Scanner sent = new Scanner(script);
         tokens = new ArrayList<Token>();
         while (sent.hasNext()){
             String temp = sent.next();
+            //adds token for specific cases
             switch (temp){
                 case "cat": case "ls": case "pwd": case "touch": case "cp": case "mv":
                 case "rm": case "chmod": case "man": case "ps": case "bg":
@@ -70,7 +71,7 @@ public class TheScanner {
         System.out.println(tokens);
         nextToken = 0;
     }
-
+    //find next token in token array
     public Token nextToken() {
         if (nextToken < tokens.size()) {
             nextToken++;
