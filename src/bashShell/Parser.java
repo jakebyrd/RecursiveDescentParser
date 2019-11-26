@@ -41,7 +41,7 @@ public class Parser {
         errorHappened = true;
         System.out.println(error);
     }
-
+    //Parser Constructor
     public Parser(String script){
         TheScanner = new TheScanner(script);
         currentToken = TheScanner.nextToken();
@@ -52,6 +52,7 @@ public class Parser {
     }
 
     //---------------- Parsing Methods ---------------
+    //parses Script
     private Script parseScript() {
         while (currentToken.kind == Token.FName
                 || currentToken.kind == Token.VAR
@@ -60,7 +61,7 @@ public class Parser {
             parseCommand();
         return null;
     }
-
+    //parses Command
     private Command parseCommand() {
         Command cAST = null;
         switch (currentToken.kind) {
@@ -163,7 +164,7 @@ public class Parser {
         }
         return cAST;
     }
-
+    //Parse Argument
     private Argument parseArgument() {
         Argument arg = null;
         switch (currentToken.kind) {
@@ -187,25 +188,25 @@ public class Parser {
         }
         return arg;
     }
-
+    //parses filename
     private FNameArg parseFileName() {
         Terminal t = new Terminal(currentToken.spelling);
         acceptIt();
         return new FNameArg(t);
     }
-
+    //parses literal
     private LiteralArg parseLiteral() {
         Terminal t = new Terminal(currentToken.spelling);
         acceptIt();
         return new LiteralArg(t);
     }
-
+    //single variables
     private VarArg parseVariable() {
         Terminal t = new Terminal(currentToken.spelling);
         acceptIt();
         return new VarArg(t);
     }
-
+    //parses single arguments
     private SingleArg parseSingleArgument() {
         SingleArg arg1;
         switch(currentToken.kind) {
@@ -223,9 +224,5 @@ public class Parser {
             }
         }
         return null;
-    }
-
-    public static String displayAST(){
-        return sAST.visit(0);
     }
 }
