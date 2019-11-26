@@ -1,4 +1,5 @@
 package bashShell;
+import bashShell.Parser;
 import java.util.Scanner;
 import java.io.*;
 
@@ -7,8 +8,9 @@ public class compile2C {
     public static void main(String [] args) throws Exception{
         boolean outFile = false;
         boolean outScreen = false;
-        String inputFName = "";
-
+        String inputFName = null;
+        string treeAst;
+        //check for -d or -p for input
         for(String arg: args) {
             if (arg.equals("-d")){
                 outScreen = true;
@@ -24,32 +26,23 @@ public class compile2C {
             System.err.println("Must print to screen or file");
         }
         else {
-            File file = new File(inputFName);
-            Scanner scan = new Scanner(file);
-            StringBuilder input = new StringBuilder();
-            while (scan.hasNextLine())
-                input.append(scan.nextLine()).append(" eol ");
-
-            Parser parse = new Parser(input.toString());
-
+            //scans input from file
+            String input = new Scanner(new File(inputFName)).useDelimiter("\\Z").next();
+            //parses file input
+            Parser parse = new Parser(input);
+            //parses tree
+            treeAst = parse.parse();
+            //outputs to console
             if (outScreen) {
-                System.out.println("\n" + Parser.displayAST());
+                System.out.println(treeAst);
             }
-
+            //outputs ast to file
             if (outFile) {
-                String outFName = inputFName.substring(inputFName.lastIndexOf("/") + 1,
-                        inputFName.lastIndexOf(".")) + ".ast";
-                writeFile(outFName, Parser.displayAST());
-                System.out.println(outFName);
+                File file = new File(inputFName + ".ast");
+                FileWriter fileWriter = new FileWriter(file);
+                fileWriter.write(treeAst);
+                fileWriter.close;
             }
         }
-    }
-
-    private static void writeFile(String fName, String fContent) throws IOException
-    {
-        FileWriter fileWrite = new FileWriter(System.getProperty("user.dir") + "/" + fName);
-        PrintWriter printWrite = new PrintWriter(fileWrite);
-        printWrite.print(fContent);
-        printWrite.close();
     }
 }
