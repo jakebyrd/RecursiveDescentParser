@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - compile2C",
+            "request": "launch",
+            "mainClass": "bashShell.compile2C"
+        }
+    ]
+}
