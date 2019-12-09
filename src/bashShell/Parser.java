@@ -10,6 +10,7 @@ public class Parser {
     private TheScanner TheScanner = null;
     private boolean errorHappened;
     private static Script sAST = null;
+    private static Script dAST = null;
 
     //------------- Utility Methods -------------
 
@@ -224,5 +225,15 @@ public class Parser {
             }
         }
         return null;
+    }
+
+    public static void decorateAst(){
+        DecorateVisitAst visitor = new DecorateVisitAst();
+        visitor.visitScript(sAST, null);
+    }
+
+    public static printAst(){
+        VisitPrintCommands visitor = new VisitPrintCommands();
+        return visitor.visitScript(sAST, 0);
     }
 }
