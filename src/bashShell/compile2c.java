@@ -41,7 +41,7 @@ public class compile2C {
                 File file = new File(inputFName + ".ast");
                 FileWriter fileWriter = new FileWriter(file);
                 fileWriter.write(treeAst);
-                fileWriter.close;
+                fileWriter.close();
             }
 
             Parser.decorateAst();

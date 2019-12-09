@@ -228,11 +228,11 @@ public class Parser {
     }
 
     public static void decorateAst(){
-        DecorateVisitAst visitor = new DecorateVisitAst();
+        VisitCommands visitor = new VisitCommands();
         visitor.visitScript(sAST, null);
     }
 
-    public static printAst(){
+    public static void printAst(){
         VisitPrintCommands visitor = new VisitPrintCommands();
         return visitor.visitScript(sAST, 0);
     }

@@ -4,19 +4,19 @@ import bashShell.VisitPrintCommands;
 
 public class ExecCmd extends Command {
     private FNameArg command;
-    private Argument args;
+    private Argument arg;
 
-    public ExecCmd(FNameArg command, Argument args){
+    public ExecCmd(FNameArg command, Argument arg){
         this.command = command;
-        this.args = args;
+        this.arg = arg;
     }
 
     public FNameArg getCommand() {
         return command;
     }
 
-    public Argument getArgs() {
-        return args;
+    public Argument getArg() {
+        return arg;
     }
 
     public String accept(VisitPrintCommands visitor, int i){

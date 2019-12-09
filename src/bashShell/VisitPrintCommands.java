@@ -1,5 +1,6 @@
 package bashShell;
 import bashShell.ast.*;
+import java.util.*;
 
 public class VisitPrintCommands implements VisitorPrint{
 

@@ -4,13 +4,13 @@ import bashShell.VisitPrintCommands;
 
 public class IfCmd extends Command{
     private FNameArg command;
-    private Argument args;
+    private Argument arg;
     private Command ifBlock;
     private Command elseBlock;
 
-    public IfCmd(FNameArg command, Argument args, Command ifBlock, Command elseBlock){
+    public IfCmd(FNameArg command, Argument arg, Command ifBlock, Command elseBlock){
         this.command = command;
-        this.args = args;
+        this.arg = arg;
         this.ifBlock = ifBlock;
         this.elseBlock = elseBlock;
     }
@@ -23,8 +23,8 @@ public class IfCmd extends Command{
         return ifBlock;
     }
 
-    public Argument getArgs() {
-        return args;
+    public Argument getArg() {
+        return arg;
     }
 
     public FNameArg getCommand() {

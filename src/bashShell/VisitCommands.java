@@ -6,7 +6,7 @@ public class VisitCommands implements Visitor {
 
     private IdentificationTable idTable;
 
-    public DecorateVisitAst(){
+    public VisitCommands(){
         this.idTable = new IdentificationTable();
     }
 

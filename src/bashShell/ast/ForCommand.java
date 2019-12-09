@@ -4,12 +4,12 @@ import bashShell.VisitPrintCommands;
 
 public class ForCommand extends Command {
     private VarArg var;
-    private Argument args;
+    private Argument arg;
     private Command doBody;
 
-    public ForCommand(VarArg var, Argument args, Command doBody){
+    public ForCommand(VarArg var, Argument arg, Command doBody){
         this.var = var;
-        this.args = args;
+        this.arg = arg;
         this.doBody = doBody;
     }
 

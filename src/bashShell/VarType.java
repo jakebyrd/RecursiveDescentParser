@@ -13,12 +13,8 @@ public class VarType {
     public static Type executable = new Type(EXECUTABLE);
     public static Type nulltype = new Type(NULLTYPE);
 
-    public Type(byte kind) {
+    public VarType(byte kind) {
         this.kind = kind;
     }
 
-    public boolean equals (Object object){
-        VarType otherType = (VarType) object;
-        return (this.kind == otherType.kind);
-    }
 }
