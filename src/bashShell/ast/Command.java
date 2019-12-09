@@ -1,8 +1,7 @@
 package bashShell.ast;
+import bashShell.VisitCommands;
+import bashShell.VisitPrintCommands;
 
 public abstract class Command extends AST {
-    //visit method
-    public String visit(){
-        return null;
-    }
+
 }

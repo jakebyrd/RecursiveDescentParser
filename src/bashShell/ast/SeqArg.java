@@ -1,4 +1,6 @@
 package bashShell.ast;
+import bashShell.VisitCommands;
+import bashShell.VisitPrintCommands;
 
 public class SeqArg extends Argument {
     private Argument arg1;
@@ -9,10 +11,18 @@ public class SeqArg extends Argument {
         this.arg2 = arg2;
     }
 
-    public String visit(int i){
-        i++;
-        treeAst = treeAst + arg1.visit(i);
-        treeAst = treeAst + arg2.visit(i);
-        return(Indent(i) + "SeqArg\n" + treeAst);
+    public Argument getArg1() {
+        return arg1;
+    }
+
+    public Argument getArg2() {
+        return arg2;
+    }
+
+    public String accept(VisitPrintCommands visitor, int i) {
+        return visitor.visitSeqArg(this, i);
+    }
+    public Object accept(VisitCommands visitor, Object object){
+        return visitor.visitSeqArg(this, object);
     }
 }

@@ -1,4 +1,6 @@
 package bashShell.ast;
+import bashShell.VisitCommands;
+import bashShell.VisitPrintCommands;
 
 public class NullCmd extends Command {
     private Command cmd = null;
@@ -7,8 +9,14 @@ public class NullCmd extends Command {
         this.cmd = null;
     }
 
-    public String visit(int i) {
-        treeAst = treeAst + (Indent(i) + "nullCmd");
-        return(Indent(i) + "nullCmd");
+    public Command getCmd() {
+        return cmd;
+    }
+
+    public String accept(VisitPrintCommands visitor, int i) {
+        return visitor.visitNullCmd(this, i);
+    }
+    public Object accept(VisitCommands visitor, Object object){
+        return visitor.visitNullCmd(this, object);
     }
 }

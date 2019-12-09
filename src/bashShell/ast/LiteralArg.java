@@ -1,4 +1,7 @@
 package bashShell.ast;
+import bashShell.VisitCommands;
+import bashShell.VisitPrintCommands;
+import bashShell.VarType;
 
 public class LiteralArg extends SingleArg {
     private Terminal literal;
@@ -7,9 +10,14 @@ public class LiteralArg extends SingleArg {
         this.literal = literal;
     }
 
-    public String visit(int i){
-        i++;
-        treeAst = treeAst + literal.visit(i);
-        return(Indent(i) + "LiteralArg " + treeAst);
+    public Terminal getTerm() {
+        return literal;
+    }
+
+    public String accept(VisitPrintCommands visitor, int i) {
+        return visitor.visitLiteralArg(this, i);
+    }
+    public Object accept(VisitCommands visitor, Object object){
+        return visitor.visitLiteralArg(this, object);
     }
 }

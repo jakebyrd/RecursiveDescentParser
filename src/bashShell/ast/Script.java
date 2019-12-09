@@ -1,4 +1,6 @@
 package bashShell.ast;
+import bashShell.VisitCommands;
+import bashShell.VisitPrintCommands;
 
 public class Script extends AST {
     public Command c;
@@ -7,10 +9,14 @@ public class Script extends AST {
         this.c = c;
     }
 
-    public String visit(int i){
-        treeAst += Indent(i) + "Script\n";
-        i++;
-        treeAst = treeAst + c.visit(i);
-        return(treeAst);
+    public Command getC() {
+        return c;
+    }
+
+    public String accept(VisitPrintCommands visitor, int i) {
+        return visitor.visitScript(this, i);
+    }
+    public Object accept(VisitCommands visitor, Object object){
+        return visitor.visitScript(this, object);
     }
 }

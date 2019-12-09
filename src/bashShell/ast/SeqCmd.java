@@ -1,4 +1,6 @@
 package bashShell.ast;
+import bashShell.VisitCommands;
+import bashShell.VisitPrintCommands;
 
 public class SeqCmd extends Command {
     Command c1;
@@ -9,10 +11,18 @@ public class SeqCmd extends Command {
         this.c2 = c2;
     }
 
-    public String visit(int i){
-        i++;
-        treeAst = treeAst + c1.visit(i);
-        treeAst = treeAst + c2.visit(i);
-        return(Indent(i) + "SeqCmd\n" + treeAst);
+    public Command getC1() {
+        return c1;
+    }
+
+    public Command getC2() {
+        return c2;
+    }
+
+    public String accept(VisitPrintCommands visitor, int i) {
+        return visitor.visitSeqCmd(this, i);
+    }
+    public Object accept(VisitCommands visitor, Object object){
+        return visitor.visitSeqCmd(this, object);
     }
 }

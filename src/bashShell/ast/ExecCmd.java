@@ -1,4 +1,6 @@
 package bashShell.ast;
+import bashShell.VisitCommands;
+import bashShell.VisitPrintCommands;
 
 public class ExecCmd extends Command {
     private FNameArg command;
@@ -8,12 +10,21 @@ public class ExecCmd extends Command {
         this.command = command;
         this.args = args;
     }
-    //visit method
-    public String visit(int i){
-        i++;
-        treeAst = treeAst + command.visit(i);
-        treeAst = treeAst + args.visit(i);
-        return(Indent(i) + "ExecCmd\n" + treeAst);
+
+    public FNameArg getCommand() {
+        return command;
+    }
+
+    public Argument getArgs() {
+        return args;
+    }
+
+    public String accept(VisitPrintCommands visitor, int i){
+        return visitor.visitExecCmd(this, i);
+    }
+
+    public Object accept(VisitCommands visitor, Object object){
+        return visitor.visitExecCmd(this, object);
     }
 
 }

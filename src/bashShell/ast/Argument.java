@@ -1,9 +1,7 @@
 package bashShell.ast;
+import bashShell.VisitCommands;
+import bashShell.VisitPrintCommands;
 
 public abstract class Argument extends AST{
-    @Override
-    //visit method
-    public String visit(int i) {
-        return null;
-    }
+
 }

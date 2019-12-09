@@ -1,4 +1,6 @@
 package bashShell.ast;
+import bashShell.VisitCommands;
+import bashShell.VisitPrintCommands;
 
 public class ForCommand extends Command {
     private VarArg var;
@@ -11,11 +13,22 @@ public class ForCommand extends Command {
         this.doBody = doBody;
     }
 
-    public String visit(int i){
-        i++;
-        treeAst = treeAst + var.visit(i);
-        treeAst = treeAst + args.visit(i);
-        treeAst = treeAst + doBody.visit(i);
-        return(Indent(i) + "ForCmd\n" + treeAst);
+    public Argument getArg() {
+        return arg;
+    }
+
+    public VarArg getVar() {
+        return var;
+    }
+
+    public Command getDoBody() {
+        return doBody;
+    }
+
+    public String accept(VisitPrintCommands visitor, int i) {
+        return visitor.visitForCommand(this, i);
+    }
+    public Object accept(VisitCommands visitor, Object object){
+        return visitor.visitForCommand(this, object);
     }
 }

@@ -1,16 +1,8 @@
 package bashShell.ast;
+import bashShell.VisitCommands;
+import bashShell.VisitPrintCommands;
 
 public abstract class AST {
-    //tree initialization
-    public String treeAst = "";
-    //visit method
-    protected abstract String visit(int i);
-    //Method for indenting each line
-    public String Indent(int len) {
-        StringBuffer outputBuffer = new StringBuffer(len);
-        for (int i = 0; i < len; i++) {
-            outputBuffer.append(" ");
-        }
-        return outputBuffer.toString();
-    }
+    public abstract String accept(VisitPrintCommands visitor, int i);
+    public abstract Object accept(VisitCommands visitor, Object object);
 }

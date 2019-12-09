@@ -1,4 +1,6 @@
 package bashShell.ast;
+import bashShell.VisitCommands;
+import bashShell.VisitPrintCommands;
 
 public class IfCmd extends Command{
     private FNameArg command;
@@ -12,12 +14,27 @@ public class IfCmd extends Command{
         this.ifBlock = ifBlock;
         this.elseBlock = elseBlock;
     }
-    public String visit(int i){
-        i++;
-        treeAst = treeAst + command.visit(i);
-        treeAst = treeAst + args.visit(i);
-        treeAst = treeAst + ifBlock.visit(i);
-        treeAst = treeAst + elseBlock.visit(i);
-        return(Indent(i) + "IfCmd\n" + treeAst);
+
+    public Command getElseBlock() {
+        return elseBlock;
+    }
+
+    public Command getIfBlock() {
+        return ifBlock;
+    }
+
+    public Argument getArgs() {
+        return args;
+    }
+
+    public FNameArg getCommand() {
+        return command;
+    }
+
+    public String accept(VisitPrintCommands visitor, int i) {
+        return visitor.visitIfCmd(this, i);
+    }
+    public Object accept(VisitCommands visitor, Object object){
+        return visitor.visitIfCmd(this, object);
     }
 }
