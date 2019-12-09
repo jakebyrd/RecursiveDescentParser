@@ -9,7 +9,7 @@ public class compile2C {
         boolean outFile = false;
         boolean outScreen = false;
         String inputFName = null;
-        string treeAst;
+        String treeAst;
         //check for -d or -p for input
         for(String arg: args) {
             if (arg.equals("-d")){
